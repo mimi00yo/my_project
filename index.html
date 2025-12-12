@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html> 
+<head>
+  <title>Welcome Back!</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --blue: #6366F1;
+      --blue-light: #818CF8;
+      --gray: #64748B;
+      --light: #F8FAFC;
+      --bg: #FFFFFF;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #1E293B;
+    }
+    .container {
+      width: 1150px;
+      height: 680px;
+      background: white;
+      border-radius: 32px;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      box-shadow: 0 25px 70px rgba(99, 102, 241, 0.15);
+    }
+
+    /* LEFT – Illustration */
+    .left {
+      background: linear-gradient(135deg, #F0F4FF 0%, #E0E7FF 100%);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .blob {
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      background: rgba(129, 140, 248, 0.18);
+      border-radius: 58% 42% 65% 35% / 50% 45% 55% 50%;
+      filter: blur(80px);
+      animation: float 20s infinite ease-in-out;
+    }
+    .illustration {
+      position: relative;
+      width: 420px;
+    }
+    /* Simplified flat illustration using pure CSS shapes */
+    .couch { width: 360px; height: 140px; background: #C7D2FE; border-radius: 20px 20px 12px 12px; position: absolute; bottom: 80px; left: 30px; }
+    .couch::after { content:''; position:absolute; bottom:-20px; left:0; right:0; height:40px; background:#A5B4FC; border-radius:12px; }
+    .person1, .person2 { position: absolute; bottom: 120px; }
+    .person1 { left: 60px; }
+    .person2 { right: 70px; }
+    .head { width: 56px; height: 56px; background: #FEF3C7; border-radius: 50%; position: relative; }
+    .body { width: 70px; height: 90px; background: #A7F3D0; border-radius: 20px; margin-top: 8px; }
+    .person2 .head { background: #FBCFE8; }
+    .person2 .body { background: #C4B5FD; }
+    .laptop {
+      position: absolute;
+      width: 140px; height: 90px;
+      background: #1E293B;
+      border-radius: 12px;
+      bottom: 180px; left: 140px;
+      transform: rotate(-8deg);
+    }
+    .laptop::after {
+      content:''; position:absolute; bottom:-8px; left:20px; right:20px;
+      height:6px; background:#64748B; border-radius:4px;
+    }
+    .plant { position: absolute; bottom: 0; right: 40px; width: 110px; height: 220px; }
+    .pot { width: 80px; height: 60px; background: #F472B6; border-radius: 0 0 40px 40px; margin: 0 auto; }
+    .leaves {
+      width: 100px; height: 160px; background: #6EE7B7; border-radius: 60px 40px;
+      position: relative; top: -20px; margin: 0 auto;
+    }
+    .leaves::before, .leaves::after {
+      content:''; position:absolute; width:70px; height:120px;
+      background: #34D399; border-radius: 50px 30px; top:-10px;
+    }
+    .leaves::before { left:-20px; transform:rotate(-30deg); }
+    .leaves::after { right:-20px; transform:rotate(30deg); }
+    .lamp {
+      position: absolute; top: 80px; left: 50px;
+      width: 8px; height: 180px; background: #64748B;
+    }
+    .lamp::before {
+      content:''; position:absolute; top:-40px; left:-40px;
+      width: 88px; height: 60px; background: #FEF3C7; border-radius: 50%;
+      box-shadow: 0 0 60px rgba(254,243,199,0.8);
+    }
+    .clock {
+      position: absolute; top: 100px; right: 70px;
+      width: 80px; height: 80px; background: white; border-radius: 50%;
+      border: 6px solid #94A3B8; box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    .clock::after { content:''; position:absolute; top:10px; left:50%; transform:translateX(-50%);
+      width:4px; height:30px; background:#64748B; transform-origin: bottom; }
+    .table {
+      position: absolute; bottom: 100px; left: 80px;
+      width: 100px; height: 80px; background: #E9D5FF; border-radius: 12px;
+    }
+
+    /* RIGHT – Form */
+    .right {
+      padding: 80px 90px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background: white;
+    }
+    h1 {
+      font-size: 42px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: #1E293B;
+    }
+    .subtitle {
+      font-size: 17px;
+      color: var(--gray);
+      margin-bottom: 48px;
+    }
+    .input-group {
+      position: relative;
+      margin-bottom: 24px;
+    }
+    input {
+      width: 100%;
+      padding: 18px 20px;
+      border: 2px solid #E2E8F0;
+      border-radius: 16px;
+      font-size: 16px;
+      transition: all 0.3s;
+    }
+    input:focus {
+      outline: none;
+      border-color: var(--blue);
+      box-shadow: 0 0 0 5px rgba(99,102,241,0.15);
+    }
+    .options {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 20px 0 32px;
+      font-size: 14.5px;
+    }
+    .remember {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--gray);
+    }
+    .remember input { accent-color: var(--blue); }
+    .forgot a {
+      color: var(--blue);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .btn {
+      width: 100%;
+      padding: 18px;
+      background: linear-gradient(135deg, var(--blue), var(--blue-light));
+      color: white;
+      border: none;
+      border-radius: 16px;
+      font-size: 17px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 10px 30px rgba(99,102,241,0.3);
+    }
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 35px rgba(99,102,241,0.4);
+    }
+    .signup {
+      text-align: center;
+      margin-top: 32px;
+      color: var(--gray);
+      font-size: 15px;
+    }
+    .signup a {
+      color: var(--blue);
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    @keyframes float {
+      0%,100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-25px) rotate(3deg); }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <!-- Left: Illustration -->
+  <div class="left">
+    <div class="blob"></div>
+    
+    <div class="illustration">
+      <div class="couch"></div>
+      
+      <div class="person1">
+        <div class="head"></div>
+        <div class="body"></div>
+      </div>
+      <div class="person2">
+        <div class="head"></div>
+        <div class="body"></div>
+      </div>
+      
+      <div class="laptop"></div>
+      <div class="lamp"></div>
+      <div class="clock"></div>
+      <div class="table"></div>
+      <div class="plant">
+        <div class="pot"></div>
+        <div class="leaves"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right: Login Form -->
+  <div class="right">
+    <h1>Welcome!</h1>
+    <p class="subtitle">Sign in to continue to your account.</p>
+
+    <form>
+      <div class="input-group">
+        <input type="email" placeholder="Email Address" required />
+      </div>
+      <div class="input-group">
+        <input type="password" placeholder="Password" required />
+      </div>
+
+      <div class="options">
+        <label class="remember">
+          <input type="checkbox" />
+          Remember me
+        </label>
+        <div class="forgot">
+          <a href="#">Forgot password?</a>
+        </div>
+      </div>
+
+      <button type="submit" class="btn">Sign in</button>
+    </form>
+
+    <p class="signup">
+      Don’t have an account? <a href="#">Sign up</a>
+    </p>
+  </div>
+</div>
+
+</body>
+</html>
