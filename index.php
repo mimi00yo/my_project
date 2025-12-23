@@ -1,3 +1,6 @@
+<?php
+  include 'connect.php';
+?>
 <!DOCTYPE html>
 <html> 
 <head>
@@ -154,7 +157,7 @@
     <h1>Welcome!</h1>
     <p class="subtitle">Sign in to continue to your account.</p>
 
-    <form>
+    <form action="login.php" method="POST">
       <div class="input-group">
         <input type="email" placeholder="Email Address" required />
       </div>
@@ -168,7 +171,7 @@
           Remember me
         </label>
         <div class="forgot">
-          <a href="#">Forgot password?</a>
+          <a href="forgotpass.php">Forgot password?</a>
         </div>
       </div>
 
