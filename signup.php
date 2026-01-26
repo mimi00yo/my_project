@@ -1,6 +1,25 @@
 <?php
-  include 'connect.php';
+include("connect.php");
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+
+    $sql = "INSERT INTO patients (name, email, password)
+            VALUES ('$name', '$email', '$password')";
+
+    if ($conn->query($sql)) {
+        header("Location: signin.php");
+        exit();
+    } else {
+        echo "Error: Email already exists";
+    }
+}
+
 ?>
+
+
 <!DOCTYPE html>
 <html> 
 <head>
@@ -149,21 +168,26 @@
 <div class="container">
   <!-- Left: Image -->
   <div class="left">
-    <img src="signin.png" alt="Welcome Illustration">
+    <img src="signup.png" alt="Welcome Illustration">
   </div>
 
   <!-- Right: Login Form -->
   <div class="right">
     <h1>Welcome!</h1>
-    <p class="subtitle">Sign in to continue to your account.</p>
+    <p class="subtitle">Sign up to continue to your account.</p>
+<form method="POST" action="">
+  <div class="input-group">
+    <input type="text" name="name" placeholder="Full Name" required />
+  </div>
 
-    <form action="login.php" method="POST">
-      <div class="input-group">
-        <input type="email" placeholder="Email Address" required />
-      </div>
-      <div class="input-group">
-        <input type="password" placeholder="Password" required />
-      </div>
+  <div class="input-group">
+    <input type="email" name="email" placeholder="Email Address" required />
+  </div>
+
+  <div class="input-group">
+    <input type="password" name="password" placeholder="Password" required />
+  </div>
+
 
       <div class="options">
         <label class="remember">
@@ -171,18 +195,17 @@
           Remember me
         </label>
         <div class="forgot">
-          <a href="forgotpass.php">Forgot password?</a>
+          <a href="#">Forgot password?</a>
         </div>
       </div>
 
-      <button type="submit" class="btn">Sign in</button>
+      <button type="submit" class="btn">Sign up</button>
     </form>
 
     <p class="signup">
-      Don’t have an account? <a href="signup.html">Sign up</a>
+      Already have an account? <a href="signin.php">Sign in</a>
     </p>
   </div>
 </div>
-
 </body>
 </html>

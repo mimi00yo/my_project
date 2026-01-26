@@ -1,3 +1,34 @@
+<?php
+session_start();
+include("connect.php");
+
+$error = "";
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $email = trim($_POST['email']);
+    $password = $_POST['password'];
+
+    $stmt = $conn->prepare("SELECT patient_id, password FROM patients WHERE email = ?");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows === 1) {
+        $patient = $result->fetch_assoc();
+
+        if (password_verify($password, $patient['password'])) {
+            $_SESSION['patient_id'] = $patient['patient_id'];
+            header("Location: patient/dashboard.php");
+            exit;
+        } else {
+            $error = "Incorrect password";
+        }
+    } else {
+        $error = "Email not found";
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html> 
 <head>
@@ -146,21 +177,22 @@
 <div class="container">
   <!-- Left: Image -->
   <div class="left">
-    <img src="signup.png" alt="Welcome Illustration">
+    <img src="signin.png" alt="Welcome Illustration">
   </div>
 
   <!-- Right: Login Form -->
   <div class="right">
     <h1>Welcome!</h1>
-    <p class="subtitle">Sign up to continue to your account.</p>
+    <p class="subtitle">Sign in to continue to your account.</p>
 
-    <form>
-      <div class="input-group">
-        <input type="email" placeholder="Email Address" required />
-      </div>
-      <div class="input-group">
-        <input type="password" placeholder="Password" required />
-      </div>
+      <form action="login.php" method="POST">
+  <div class="input-group">
+    <input type="email" name="email" placeholder="Email Address" required />
+  </div>
+
+  <div class="input-group">
+    <input type="password" name="password" placeholder="Password" required />
+  </div>
 
       <div class="options">
         <label class="remember">
@@ -168,18 +200,17 @@
           Remember me
         </label>
         <div class="forgot">
-          <a href="#">Forgot password?</a>
+          <a href="forgotpass.php">Forgot password?</a>
         </div>
       </div>
 
-      <button type="submit" class="btn">Sign up</button>
+      <button type="submit" class="btn">Sign in</button>
     </form>
 
     <p class="signup">
-      Already have an account? <a href="index.html">Sign in</a>
+      Don’t have an account? <a href="signup.php">Sign up</a>
     </p>
   </div>
 </div>
-
 </body>
 </html>
