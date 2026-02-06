@@ -1,0 +1,124 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root{
+  --blue:#4345c0;
+  --blue-light:#818CF8;
+  --gray:#64748B;
+  --bg:#F6F7FB;
+  --card:#FFFFFF;
+  --border:#E2E8F0;
+}
+
+*{ margin:0; padding:0; box-sizing:border-box; }
+body{
+  font-family:'Inter',sans-serif;
+  background:var(--bg);
+  color:#1E293B;
+}
+
+.wrapper{
+  max-width:1100px;
+  margin:40px auto;
+  padding:0 18px;
+}
+
+.topbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:18px;
+}
+
+.brand{
+  font-size:22px;
+  font-weight:700;
+  letter-spacing:.2px;
+}
+
+.badge{
+  display:inline-block;
+  padding:6px 10px;
+  border-radius:999px;
+  background:rgba(67,69,192,.12);
+  color:var(--blue);
+  font-weight:600;
+  font-size:13px;
+}
+
+.btn{
+  display:inline-block;
+  padding:12px 14px;
+  border-radius:14px;
+  text-decoration:none;
+  font-weight:600;
+  border:1px solid var(--border);
+  background:#fff;
+  color:#1E293B;
+  transition:.2s;
+}
+.btn:hover{ transform: translateY(-1px); }
+
+.btn-primary{
+  border:none;
+  background: linear-gradient(135deg, var(--blue), var(--blue-light));
+  color:white;
+  box-shadow:0 10px 30px rgba(99,102,241,0.22);
+}
+.btn-danger{
+  border:none;
+  background:#ef4444;
+  color:white;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap:16px;
+  margin-top:18px;
+}
+@media (max-width:900px){
+  .grid{ grid-template-columns:1fr; }
+}
+
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:22px;
+  padding:18px;
+  box-shadow:0 18px 55px rgba(15, 23, 42, 0.06);
+}
+
+.card h3{
+  font-size:16px;
+  font-weight:700;
+  margin-bottom:6px;
+}
+.card p{
+  color:var(--gray);
+  font-size:14px;
+  line-height:1.4;
+  margin-bottom:14px;
+}
+
+.section-title{
+  margin-top:18px;
+  font-size:16px;
+  font-weight:700;
+}
+
+.list{
+  margin-top:10px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.item{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:12px 14px;
+}
+.small{ color:var(--gray); font-size:13px; }
+

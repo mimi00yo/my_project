@@ -1,30 +1,35 @@
 <?php
-include("connect.php");
+require_once "../config/db.php";
+$message = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $name = $_POST['name'];
-    $email = $_POST['email'];
-    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+    $name  = trim($_POST['name']);
+    $email = trim($_POST['email']);
+    $pass  = $_POST['password'];
 
-    $sql = "INSERT INTO patients (name, email, password)
-            VALUES ('$name', '$email', '$password')";
+    $hash = password_hash($pass, PASSWORD_DEFAULT);
 
-    if ($conn->query($sql)) {
+    $stmt = $conn->prepare("INSERT INTO users (name, email, phone, password_hash, role, status)
+                            VALUES (?, ?, '', ?, 'patient', 'pending')");
+    $stmt->bind_param("sss", $name, $email, $hash);
+
+    if ($stmt->execute()) {
         header("Location: signin.php");
         exit();
     } else {
-        echo "Error: Email already exists";
+        $message = "Error: Email already exists.";
     }
 }
-
 ?>
+
 
 
 <!DOCTYPE html>
 <html> 
 <head>
   <title>Welcome Back!</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/app.css">
+
   <style>
     :root {
       --blue: #4345c0;
@@ -175,7 +180,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   <div class="right">
     <h1>Welcome!</h1>
     <p class="subtitle">Sign up to continue to your account.</p>
-<form method="POST" action="">
+        <p style="color: red;"><?php echo htmlspecialchars($message);?></p>
+
+<form method="POST">     
+
   <div class="input-group">
     <input type="text" name="name" placeholder="Full Name" required />
   </div>
@@ -190,12 +198,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
       <div class="options">
-        <label class="remember">
-          <input type="checkbox" />
-          Remember me
-        </label>
-        <div class="forgot">
-          <a href="#">Forgot password?</a>
+        <div style="margin: 20px 0 32px; color:#64748B; font-size:14.5px;">
+  By signing up, you agree to our terms & privacy policy.
         </div>
       </div>
 
