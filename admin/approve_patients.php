@@ -46,22 +46,36 @@ $patients = $conn->query("SELECT id, name, email, phone, status, created_at
 <html>
 <head>
   <title>Approve Patients</title>
-  <style>
-    body { font-family: Arial; padding: 25px; }
-    table { border-collapse: collapse; width: 100%; }
-    th, td { border: 1px solid #ccc; padding: 10px; text-align: left; }
-    th { background: #f3f3f3; }
-    a.btn { padding: 6px 10px; background: green; color: white; text-decoration: none; border-radius: 6px; }
-  </style>
+  <link rel="stylesheet" href="../assests/app.css">
 </head>
 <body>
+<div class="topbar-wrap">
+  <div class="topbar">
+    <div class="brand">CareCloud <span class="badge">Admin</span></div>
+
+    <div class="nav">
+      <a href="dashboard.php">Dashboard</a>
+      <a href="approve_patients.php">Approve Patients</a>
+      <a href="manage_appointments.php">Appointments</a>
+      <a class="btn btn-danger" href="../public/logout.php">Logout</a>
+    </div>
+  </div>
+</div>
+<main class="wrapper">
+  
+<div class="pagehead">
+  <div>
+    <h1>Approve Patients</h1>
+    <p>Approve or reject users who registered as patients.</p>
+  </div>
+</div>
 
 <h2>Approve Patients</h2>
 <a href="dashboard.php">← Back to Dashboard</a>
 
 <br><br>
 
-<table>
+<table class="table">
   <tr>
     <th>Name</th>
     <th>Email</th>
@@ -78,15 +92,24 @@ $patients = $conn->query("SELECT id, name, email, phone, status, created_at
       <td><?php echo htmlspecialchars($p["status"]); ?></td>
       <td>
         <?php if($p["status"] === "pending"): ?>
-          <a class="btn" href="?approve=<?php echo $p["id"]; ?>">Approve</a>
-        <?php else: ?>
-          Approved ✅
-        <?php endif; ?>
+
+  <span class="badge warn">Pending</span>
+  <a class="btn btn-primary"
+     href="?approve=<?php echo $p["id"]; ?>">
+     Approve
+  </a>
+
+<?php else: ?>
+
+  <span class="badge success">Approved</span>
+
+<?php endif; ?>
+
       </td>
     </tr>
   <?php endwhile; ?>
 </table>
-
+</main>
 </body>
 </html>
 

@@ -28,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <html> 
 <head>
   <title>Welcome Back!</title>
-  <link rel="stylesheet" href="../assets/app.css">
+  <link rel="stylesheet" href="../assests/app.css">
 
   <style>
     :root {
