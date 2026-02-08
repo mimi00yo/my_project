@@ -1,6 +1,5 @@
 <?php
-session_start();
-require_once __DIR__ . "/../config/db.php";
+session_start();require_once __DIR__ . "/../config/db.php";
 
 if (!isset($_SESSION["user_id"]) || ($_SESSION["role"] ?? "") !== "patient") {
     header("Location: ../public/signin.php");

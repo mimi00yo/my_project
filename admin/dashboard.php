@@ -6,8 +6,7 @@ session_set_cookie_params([
   "samesite" => "Lax"
 ]);
 
-session_start();
-require_once "../config/db.php"; // ✅ connect DB
+session_start();require_once "../config/db.php"; // ✅ connect DB
 
 // ✅ only admin can access
 if (!isset($_SESSION["user_id"]) || ($_SESSION["role"] ?? "") !== "admin") {

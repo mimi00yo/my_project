@@ -34,36 +34,60 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 }
 ?>
-<!DOCTYPE html>
-<html>
+
+
+
+
+<!doctype html>
+<html lang="en">
 <head>
-  <title>Forgot Password</title>
-  <style>
-    body { font-family: Arial; padding: 25px; max-width: 520px; margin: auto; }
-    input, textarea { width: 100%; padding: 10px; margin: 10px 0; }
-    button { padding: 10px 16px; }
-    .msg { margin: 10px 0; }
-  </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Forgot password</title>
+  <link rel="stylesheet" href="../assests/app.css">
 </head>
 <body>
 
-  <h2>Forgot Password</h2>
-  <p>Enter your registered email. Admin will reset your password.</p>
+<div class="nav">
+  <div class="container">
+    <div class="nav-inner">
+      <a class="brand" href="../index.php">
+        <span class="logo" aria-hidden="true"></span>
+        <span>My Project</span>
+      </a>
+      <div class="nav-links">
+        <a href="../index.php">Home</a>
+        <a class="btn btn-ghost" href="signin.php">Sign in</a>
+      </div>
+    </div>
+  </div>
+</div>
 
-  <p class="msg"><?php echo htmlspecialchars($msg); ?></p>
+<div class="auth-wrap">
+  <div class="card" style="max-width: 560px; margin: 34px auto;">
+    <h1 class="auth-title" style="font-size:24px;">Forgot password</h1>
+    <p class="auth-subtitle">Enter your email and a short reason. Admin will reset your password.</p>
 
-  <form method="POST">
-    <label>Email</label>
-    <input type="email" name="email" required placeholder="your@email.com">
+    <?php if (!empty($msg)) : ?>
+      <div class="alert" style="border-color: rgba(37,99,235,.25); background: rgba(37,99,235,.08); color:#1E3A8A;">
+        <?php echo htmlspecialchars($msg); ?>
+      </div>
+    <?php endif; ?>
 
-    <label>Reason (optional)</label>
-    <textarea name="reason" placeholder="e.g., forgot password"></textarea>
+    <form method="POST">
+      <label class="label" for="email">Email</label>
+      <input class="input" type="email" id="email" name="email" placeholder="you@example.com" required>
 
-    <button type="submit">Submit Request</button>
-  </form>
+      <label class="label" for="reason">Reason</label>
+      <textarea class="input" id="reason" name="reason" rows="4" placeholder="Example: I forgot my password" required></textarea>
 
-  <br>
-  <a href="signin.php">← Back to Sign in</a>
+      <div class="auth-row">
+        <a class="helper-link" href="signin.php">Back to sign in</a>
+        <button class="btn btn-primary" type="submit">Submit request</button>
+      </div>
+    </form>
+  </div>
+</div>
 
 </body>
 </html>

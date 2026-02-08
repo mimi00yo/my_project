@@ -8,8 +8,7 @@ session_set_cookie_params([
 ]);
 
 
-session_start();
-require_once "../config/db.php";
+session_start();require_once "../config/db.php";
 
 // ✅ only admin
 if (!isset($_SESSION["user_id"]) || $_SESSION["role"] !== "admin") {

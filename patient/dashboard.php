@@ -1,4 +1,7 @@
 <?php
+$active = "dashboard";
+$pageTitle = "Dashboard";
+require_once "nav.php";
 
 session_set_cookie_params([
   "lifetime" => 0,
@@ -47,6 +50,37 @@ $notifs = $stmt->get_result();
 <a href="reports.php">📄 My Reports</a>
 <a href="notifications.php">🔔 Notifications</a>
 <!-- Next step we will add appointment request link here -->
+<div class="cards">
+  <div class="card-mini">
+    <h3>Upcoming Appointments</h3>
+    <p>—</p>
+  </div>
+  <div class="card-mini">
+    <h3>Reports Available</h3>
+    <p>—</p>
+  </div>
+  <div class="card-mini">
+    <h3>Notifications</h3>
+    <p>—</p>
+  </div>
+</div>
+
+<div class="section-box">
+  <h2 style="margin:0 0 8px; font-size:16px;">Quick Actions</h2>
+  <div style="display:flex; gap:10px; flex-wrap:wrap;">
+    <a class="btn btn-primary" href="request_appointment.php">Request Appointment</a>
+    <a class="btn btn-ghost" href="my_appointments.php">View My Appointments</a>
+    <a class="btn btn-ghost" href="reports.php">View Reports</a>
+  </div>
+</div>
+
+<div class="section-box">
+  <h2 style="margin:0 0 8px; font-size:16px;">Tips</h2>
+  <p style="margin:0;">
+    Use “Request Appointment” to send a request. You will see approval status in “My Appointments”.
+  </p>
+</div>
+
 
 <div class="box">
   <h3>Notifications</h3>
@@ -65,3 +99,4 @@ $notifs = $stmt->get_result();
 </body>
 </html>
 
+<?php include "footer.php"; ?>

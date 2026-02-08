@@ -1,6 +1,5 @@
 <?php
-session_start();
-require_once "../config/db.php";
+session_start();require_once "../config/db.php";
 
 // ✅ only patient
 if (!isset($_SESSION["user_id"]) || $_SESSION["role"] !== "patient") {
