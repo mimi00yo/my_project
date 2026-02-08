@@ -42,13 +42,13 @@ $notifs = $stmt->get_result();
 </head>
 <body>
 
-<h2>Welcome, <?php echo htmlspecialchars($_SESSION["name"]); ?> 👋</h2>
+<h2>Welcome, <?php echo htmlspecialchars($_SESSION["name"]); ?> ✨</h2>
 
-<a href="../public/logout.php">🚪 Logout</a>
+<!-- <a href="../public/logout.php">🚪 Logout</a>
 <a href="request_appointment.php">📅 Request Appointment</a>
 <a href="my_appointments.php">📋 My Appointments</a>
 <a href="reports.php">📄 My Reports</a>
-<a href="notifications.php">🔔 Notifications</a>
+<a href="notifications.php">🔔 Notifications</a> -->
 <!-- Next step we will add appointment request link here -->
 <div class="cards">
   <div class="card-mini">
