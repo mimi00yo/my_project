@@ -8,7 +8,8 @@ session_set_cookie_params([
 ]);
 
 
-session_start();require_once "../config/db.php";
+session_start();
+require_once "../config/db.php";
 
 $error = "";
 
@@ -20,6 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $stmt->bind_param("s", $email);
     $stmt->execute();
     $result = $stmt->get_result();
+    $stmt->close();
 
     if ($result->num_rows === 1) {
         $user = $result->fetch_assoc();
@@ -62,55 +64,83 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 </head>
 <body>
 
-<div class="nav">
-  <div class="container">
-    <div class="nav-inner">
-      <a class="brand" href="../index.php">
-        <span class="logo" aria-hidden="true"></span>
-        <span>My Project</span>
-      </a>
-      <div class="nav-links">
-        <a href="../index.php">Home</a>
-        <a class="btn btn-ghost" href="signup.php">Sign up</a>
-      </div>
-    </div>
+<header class="nav">
+  <div class="container nav-inner">
+    <a class="brand" href="../index.php">
+      <!-- Use your svg logo if you have it -->
+      <!-- <img src="../assests/images/logo.svg" class="logo" alt="CareCloud Logo"> -->
+        <img src="../assests/images/pms.png" alt="PMS Logo" class="logo">
+      <span>PMS</span>
+    </a>
+
+    <nav class="nav-links" aria-label="Primary navigation">
+      <a class="nav-link" href="../index.php">Home</a>
+      <a class="btn btn-ghost" href="signup.php">Sign up</a>
+    </nav>
   </div>
-</div>
+</header>
 
-<div class="auth-wrap">
-  <div class="auth-box">
+<main class="auth-page">
+  <div class="container">
+    <section class="auth-box" aria-label="Sign in">
+      <div class="auth-left" aria-hidden="true">
+        <!-- If image missing, it will still look good -->
+        <img src="signin.jpg" alt="">
+        <div class="auth-left-overlay">
+          <div class="auth-badge">🔒 Secure Access</div>
+          <h2>Welcome back</h2>
+          <p>Manage appointments, reports and notifications in one place.</p>
+        </div>
+      </div>
 
-    <div class="auth-left">
-      <img src="signin.png" alt="Welcome">
-    </div>
-
-    <div class="auth-right">
-      <h1 class="auth-title">Welcome!</h1>
-      <p class="auth-subtitle">Sign in to continue to your account.</p>
-
-      <?php if (!empty($error)) : ?>
-        <div class="alert"><?php echo htmlspecialchars($error); ?></div>
-      <?php endif; ?>
-
-      <form method="POST" >
-        <label class="label" for="email">Email</label>
-        <input class="input" type="email" id="email" name="email" placeholder="you@example.com" required>
-
-        <label class="label" for="password">Password</label>
-        <input class="input" type="password" id="password" name="password" placeholder="••••••••" required>
-
-        <div class="auth-row">
-          <a class="helper-link" href="forgotpass.php">Forgot password?</a>
-          <button class="btn btn-primary" type="submit">Sign in</button>
+      <div class="auth-right">
+        <div class="auth-head">
+          <h1 class="auth-title">Sign in</h1>
+          <p class="auth-subtitle">Enter your details to continue.</p>
         </div>
 
-        <p style="margin:14px 0 0; color: var(--muted); font-size: 14px;">
-          Don’t have an account? <a class="helper-link" href="signup.php">Sign up</a>
+        <?php if (!empty($error)) : ?>
+          <div class="alert" role="alert">
+            <strong>Sign in failed:</strong>
+            <?php echo htmlspecialchars($error); ?>
+          </div>
+        <?php endif; ?>
+
+        <form method="POST" class="auth-form" novalidate>
+          <div class="field">
+            <label class="label" for="email">Email</label>
+            <input class="input" type="email" id="email" name="email"
+                   placeholder="you@example.com" autocomplete="email" required>
+          </div>
+
+          <div class="field">
+            <label class="label" for="password">Password</label>
+            <input class="input" type="password" id="password" name="password"
+                   placeholder="••••••••" autocomplete="current-password" required>
+          </div>
+
+          <div class="auth-row">
+            <a class="helper-link" href="forgotpass.php">Forgot password?</a>
+            <button class="btn btn-primary" type="submit">Sign in</button>
+          </div>
+
+          <div class="auth-divider">
+            <span>New here?</span>
+          </div>
+
+          <a class="btn btn-ghost btn-block" href="signup.php">Create an account</a>
+        </form>
+
+        <!-- <p class="auth-foot">
+          By continuing, you agree to our <a class="helper-link" href="#">Terms</a> and
+          <a class="helper-link" href="#">Privacy Policy</a>. -->
         </p>
-      </form>
-    </div>
+      </div>
+    </section>
   </div>
-</div>
+</main>
+
 </body>
 </html>
+
 

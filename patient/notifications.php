@@ -1,77 +1,109 @@
 <?php
-session_start();require_once __DIR__ . "/../config/db.php";
+session_start();
+require_once __DIR__ . "/../config/db.php";
 
 if (!isset($_SESSION["user_id"]) || ($_SESSION["role"] ?? "") !== "patient") {
-    header("Location: ../public/signin.php");
-    exit();
+  header("Location: ../public/signin.php");
+  exit();
 }
 
-$uid = $_SESSION["user_id"];
+$uid = (int)$_SESSION["user_id"];
 
 // mark one as read
 if (isset($_GET["read"])) {
-    $nid = (int)$_GET["read"];
-    $stmt = $conn->prepare("UPDATE notifications SET is_read=1 WHERE id=? AND user_id=?");
-    $stmt->bind_param("ii", $nid, $uid);
-    $stmt->execute();
-    header("Location: notifications.php");
-    exit();
+  $nid = (int)$_GET["read"];
+  $stmt = $conn->prepare("UPDATE notifications SET is_read=1 WHERE id=? AND user_id=?");
+  $stmt->bind_param("ii", $nid, $uid);
+  $stmt->execute();
+  $stmt->close();
+  header("Location: notifications.php");
+  exit();
 }
 
 // mark all as read
 if (isset($_GET["read_all"])) {
-    $stmt = $conn->prepare("UPDATE notifications SET is_read=1 WHERE user_id=?");
-    $stmt->bind_param("i", $uid);
-    $stmt->execute();
-    header("Location: notifications.php");
-    exit();
+  $stmt = $conn->prepare("UPDATE notifications SET is_read=1 WHERE user_id=?");
+  $stmt->bind_param("i", $uid);
+  $stmt->execute();
+  $stmt->close();
+  header("Location: notifications.php");
+  exit();
 }
 
-$stmt = $conn->prepare("SELECT id, message, is_read, created_at
-                        FROM notifications
-                        WHERE user_id=?
-                        ORDER BY created_at DESC");
+$stmt = $conn->prepare("
+  SELECT id, message, is_read, created_at
+  FROM notifications
+  WHERE user_id=?
+  ORDER BY created_at DESC
+");
 $stmt->bind_param("i", $uid);
 $stmt->execute();
 $notes = $stmt->get_result();
 ?>
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Notifications</title>
-  <style>
-    body { font-family: Arial; padding: 25px; }
-    .note { border:1px solid #ddd; border-radius:10px; padding:12px; margin-bottom:10px; }
-    .small { color:#666; font-size:13px; }
-    .unread { background:#fffbe6; }
-    a { text-decoration:none; }
-  </style>
+  <link rel="stylesheet" href="../assests/app.css">
 </head>
 <body>
 
-<h2>Notifications</h2>
-<a href="dashboard.php">← Back to Dashboard</a>
-&nbsp; | &nbsp;
-<a href="?read_all=1">Mark all as read</a>
-
-<br><br>
-
-<?php if($notes->num_rows === 0): ?>
-  <p>No notifications.</p>
-<?php else: ?>
-  <?php while($n = $notes->fetch_assoc()): ?>
-    <div class="note <?php echo ($n["is_read"] == 0) ? "unread" : ""; ?>">
-      <?php echo htmlspecialchars($n["message"]); ?><br>
-      <span class="small"><?php echo htmlspecialchars($n["created_at"]); ?></span>
-      <?php if($n["is_read"] == 0): ?>
-        <div class="small">
-          <a href="?read=<?php echo (int)$n["id"]; ?>">Mark as read</a>
-        </div>
-      <?php endif; ?>
+<main class="container noti-page">
+  <header class="noti-topbar">
+    <div>
+      <h1 class="noti-title">Notifications</h1>
+      <p class="noti-subtitle">Updates from admin about appointments and reports.</p>
     </div>
-  <?php endwhile; ?>
-<?php endif; ?>
 
+    <div class="noti-actions">
+      <a class="btn btn-ghost" href="dashboard.php">← Back to Dashboard</a>
+      <a class="btn btn-primary" href="?read_all=1">Mark all as read</a>
+    </div>
+  </header>
+
+  <?php if ($notes->num_rows === 0): ?>
+    <div class="noti-empty">
+      <div class="noti-empty-ico" aria-hidden="true">📭</div>
+      <div>
+        <h3 style="margin:0 0 4px;">No notifications</h3>
+        <p class="muted" style="margin:0;">You’ll see updates here when something changes.</p>
+      </div>
+    </div>
+  <?php else: ?>
+
+    <section class="noti-list" aria-label="Notifications list">
+      <?php while($n = $notes->fetch_assoc()): ?>
+        <?php $isUnread = ((int)$n["is_read"] === 0); ?>
+        <article class="noti-card <?php echo $isUnread ? "is-unread" : ""; ?>">
+          <div class="noti-row">
+            <div class="noti-dot" aria-hidden="true"></div>
+
+            <div class="noti-body">
+              <div class="noti-msg">
+                <?php echo htmlspecialchars($n["message"]); ?>
+              </div>
+              <div class="noti-time">
+                <?php echo htmlspecialchars($n["created_at"]); ?>
+              </div>
+            </div>
+
+            <?php if ($isUnread): ?>
+              <a class="btn btn-ghost btn-sm" href="?read=<?php echo (int)$n["id"]; ?>">Mark as read</a>
+            <?php else: ?>
+              <span class="noti-read">Read</span>
+            <?php endif; ?>
+          </div>
+        </article>
+      <?php endwhile; ?>
+    </section>
+
+  <?php endif; ?>
+
+</main>
+
+<?php $stmt->close(); ?>
 </body>
 </html>
 

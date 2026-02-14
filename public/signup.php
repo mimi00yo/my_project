@@ -24,7 +24,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
 
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -35,60 +34,109 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 <body>
 
-<div class="nav">
-  <div class="container">
-    <div class="nav-inner">
-      <a class="brand" href="../index.php">
-        <span class="logo" aria-hidden="true"></span>
-        <span>My Project</span>
-      </a>
-      <div class="nav-links">
-        <a href="../index.php">Home</a>
-        <a class="btn btn-ghost" href="signin.php">Sign in</a>
-      </div>
-    </div>
+<header class="nav">
+  <div class="container nav-inner">
+    <a class="brand" href="../index.php">
+<img src="../assests/images/pms.png" alt="PMS Logo" class="logo">  
+      <span> PMS</span>
+    </a>
+
+    <nav class="nav-links" aria-label="Primary navigation">
+      <a class="nav-link" href="../index.php">Home</a>
+      <a class="btn btn-ghost" href="signin.php">Sign in</a>
+    </nav>
   </div>
-</div>
+</header>
 
-<div class="auth-wrap">
-  <div class="auth-box">
+<main class="auth-page">
+  <div class="container">
 
-    <div class="auth-left">
-      <img src="signup.png" alt="Create account">
-    </div>
+    <section class="auth-box" aria-label="Create account">
 
-    <div class="auth-right">
-      <h1 class="auth-title">Create account</h1>
-      <p class="auth-subtitle">Sign up as a patient. Admin will approve your account.</p>
+      <div class="auth-left" aria-hidden="true">
+        <!-- Change image name if you want -->
+        <img src="signup.png" alt="">
+        <div class="auth-left-overlay">
+          <div class="auth-badge">🩺 Patient System</div>
+          <h2>Create your account</h2>
+          <p>Register to request appointments, view reports, and receive notifications.</p>
+        </div>
+      </div>
 
-      <?php if (!empty($message)) : ?>
-        <div class="alert"><?php echo htmlspecialchars($message); ?></div>
-      <?php endif; ?>
-
-      <form method="POST">
-        <label class="label" for="name">Full name</label>
-        <input class="input" type="text" id="name" name="name" placeholder="Your name" required>
-
-        <label class="label" for="email">Email</label>
-        <input class="input" type="email" id="email" name="email" placeholder="you@example.com" required>
-
-        <label class="label" for="password">Password</label>
-        <input class="input" type="password" id="password" name="password" placeholder="Create a strong password" required>
-
-        <div class="auth-row">
-          <a class="helper-link" href="signin.php">Already have an account?</a>
-          <button class="btn btn-primary" type="submit">Sign up</button>
+      <div class="auth-right">
+        <div class="auth-head">
+          <h1 class="auth-title">Sign up</h1>
+          <p class="auth-subtitle">Create an account in less than a minute.</p>
         </div>
 
-        <p style="margin:14px 0 0; color: var(--muted); font-size: 14px;">
-          By signing up, you agree to basic terms.
-        </p>
-      </form>
-    </div>
+        <?php if (!empty($error)) : ?>
+          <div class="alert" role="alert">
+            <strong>Sign up failed:</strong>
+            <?php echo htmlspecialchars($error); ?>
+          </div>
+        <?php endif; ?>
 
+        <form method="POST" class="auth-form" novalidate>
+
+          <div class="field">
+            <label class="label" for="name">Full name</label>
+            <input class="input" type="text" id="name" name="name"
+                   placeholder="John Doe" autocomplete="name" required>
+          </div>
+
+          <div class="field">
+            <label class="label" for="email">Email</label>
+            <input class="input" type="email" id="email" name="email"
+                   placeholder="you@example.com" autocomplete="email" required>
+          </div>
+
+          <div class="field">
+            <label class="label" for="password">Password</label>
+            <input class="input" type="password" id="password" name="password"
+                   placeholder="Create a strong password" autocomplete="new-password" required>
+          </div>
+
+          <div class="field">
+            <label class="label" for="confirm_password">Confirm password</label>
+            <input class="input" type="password" id="confirm_password" name="confirm_password"
+                   placeholder="Repeat your password" autocomplete="new-password" required>
+          </div>
+
+          <!-- If you have role selection, keep it here -->
+          <!--
+          <div class="field">
+            <label class="label" for="role">Role</label>
+            <select class="input" id="role" name="role">
+              <option value="patient">Patient</option>
+              <option value="admin">Admin</option>
+            </select>
+          </div>
+          -->
+
+          <div class="auth-row">
+            <a class="helper-link" href="signin.php">Already have an account?</a>
+            <button class="btn btn-primary" type="submit">Create account</button>
+          </div>
+
+          <div class="auth-divider">
+            <span>Or</span>
+          </div>
+
+          <a class="btn btn-ghost btn-block" href="signin.php">Go to Sign in</a>
+        </form>
+
+        <!-- <p class="auth-foot">
+          By signing up, you agree to our <a class="helper-link" href="#">Terms</a> and
+          <a class="helper-link" href="#">Privacy Policy</a>.
+        </p> -->
+      </div>
+
+    </section>
   </div>
-</div>
+</main>
 
 </body>
 </html>
+
+
 

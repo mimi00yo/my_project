@@ -33,5 +33,5 @@
   </div>
 </div>
 
-<main class="container">
-
+<?php $mainclass = isset($mainClass) ? $mainClass : "container"; ?>
+<main class="<?php echo $mainclass; ?>">

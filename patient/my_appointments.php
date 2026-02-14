@@ -1,6 +1,8 @@
-
 <?php
 session_start();require_once "../config/db.php";
+
+
+
 
 // ✅ only patient
 if (!isset($_SESSION["user_id"]) || $_SESSION["role"] !== "patient") {
@@ -8,7 +10,13 @@ if (!isset($_SESSION["user_id"]) || $_SESSION["role"] !== "patient") {
     exit();
 }
 
+
+
+
 $pid = $_SESSION["user_id"];
+
+
+
 
 $stmt = $conn->prepare("SELECT issue, requested_date, scheduled_date, status, admin_message, created_at
                         FROM appointments
@@ -22,51 +30,92 @@ $apps = $stmt->get_result();
 <html>
 <head>
   <title>My Appointments</title>
-  <style>
-    body { font-family: Arial; padding: 25px; }
-    .card { border:1px solid #ddd; border-radius:10px; padding:15px; margin-bottom:15px; }
-    .small { color:#666; font-size:13px; }
-    .approved { color:green; font-weight:bold; }
-    .rejected { color:red; font-weight:bold; }
-    .pending { color:orange; font-weight:bold; }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="../assests/app.css">
 </head>
 <body>
 
-<h2>My Appointments</h2>
-<a href="dashboard.php">← Back to Dashboard</a>
-<br><br>
+
+<div class="container">
+
+
+  <div class="topbar">
+    <div>
+      <h2>My Appointments</h2>
+      <p class="subtitle">View your appointment requests and updates</p>
+    </div>
+    <a class="btn" href="dashboard.php">← Back to Dashboard</a>
+  </div>
+
 
 <?php if($apps->num_rows === 0): ?>
-  <p>No appointment requests yet.</p>
+  <div class="empty">No appointment requests yet.</div>
 <?php else: ?>
+
+
+  <div class="list">
   <?php while($a = $apps->fetch_assoc()): ?>
+    
     <div class="card">
-      <div class="small"><b>Requested on:</b> <?php echo htmlspecialchars($a["created_at"]); ?></div>
 
-<div><b>Your Preferred Date:</b>
-<?php echo htmlspecialchars($a["requested_date"] ?? "Not provided"); ?>
-</div>
 
-<div><b>Confirmed Appointment Date:</b>
-<?php echo htmlspecialchars($a["scheduled_date"] ?? "Waiting for confirmation"); ?>
-</div>
+      <div class="card-top">
+        <div class="small"><b>Requested on:</b> <?php echo htmlspecialchars($a["created_at"]); ?></div>
 
-      <div><b>Issue:</b> <?php echo nl2br(htmlspecialchars($a["issue"])); ?></div>
 
-      <div>
-        <b>Status:</b>
-        <span class="<?php echo htmlspecialchars($a["status"]); ?>">
+        <div class="status-pill <?php echo htmlspecialchars($a["status"]); ?>">
           <?php echo htmlspecialchars($a["status"]); ?>
-        </span>
+        </div>
       </div>
 
-      <div class="small"><b>Admin Message:</b> <?php echo htmlspecialchars($a["admin_message"] ?: "None"); ?></div>
+
+      <div class="grid">
+        <div class="field">
+          <span class="label">Your Preferred Date</span>
+          <div class="value">
+            <?php echo htmlspecialchars($a["requested_date"] ?? "Not provided"); ?>
+          </div>
+        </div>
+
+
+        <div class="field">
+          <span class="label">Confirmed Appointment Date</span>
+          <div class="value">
+            <?php echo htmlspecialchars($a["scheduled_date"] ?? "Waiting for confirmation"); ?>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="issue">
+        <span class="label">Issue</span>
+        <div class="value">
+          <?php echo nl2br(htmlspecialchars($a["issue"])); ?>
+        </div>
+      </div>
+
+
+      <div class="admin">
+        <b>Admin Message:</b>
+        <?php echo htmlspecialchars($a["admin_message"] ?: "None"); ?>
+      </div>
+
+
     </div>
+
+
   <?php endwhile; ?>
+  </div>
+
+
 <?php endif; ?>
 
+
+</div>
 </body>
 </html>
+
+
+
 
 
